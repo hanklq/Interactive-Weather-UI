@@ -1,8 +1,7 @@
-
 #include "Wifi.h"
 
 
-#define MAX_RETRY      5
+#define MAX_RETRY      (5)
 
 static const char *TAG = "wifi_sta";
 static EventGroupHandle_t s_wifi_event_group;
@@ -37,7 +36,7 @@ wifi_event_handler(void* arg, esp_event_base_t event_base,
 void
 wifi_init_sta(void)
 {
-    // 1. Khởi tạo NVS
+    // 1. NVS
     esp_err_t ret = nvs_flash_init();
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES ||
         ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
@@ -46,16 +45,16 @@ wifi_init_sta(void)
     }
     ESP_ERROR_CHECK(ret);
 
-    // 2. Khởi tạo TCP/IP, event loop, network interface
+    // 2. TCP/IP, event loop, network interface
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
     esp_netif_create_default_wifi_sta();
 
-    // 3. Khởi tạo Wi-Fi với cấu hình mặc định
+    // 3. Wifi default config
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
 
-    // 4. Đăng ký handler cho Wi-Fi và IP events
+    // 4. Reg handler for Wi-Fi and IP events
     ESP_ERROR_CHECK(esp_event_handler_instance_register(
         WIFI_EVENT,
         ESP_EVENT_ANY_ID,
@@ -69,7 +68,7 @@ wifi_init_sta(void)
         NULL,
         NULL));
 
-    // 5. Cấu hình SSID/PASS, chế độ Station
+    // 5. Configure SSID/PASS, Station mode
     wifi_config_t wifi_config = {
         .sta = {
             .ssid = WIFI_SSID,
@@ -89,7 +88,7 @@ wifi_init_sta(void)
 
     ESP_LOGI(TAG, "wifi_init_sta finished.");
 
-    // 6. Chờ kết nối thành công
+    // 6. wait for connect
     s_wifi_event_group = xEventGroupCreate();
     xEventGroupWaitBits(s_wifi_event_group,
                         WIFI_CONNECTED_BIT,
@@ -97,13 +96,3 @@ wifi_init_sta(void)
                         pdFALSE,
                         portMAX_DELAY);
 }
-
-// void
-// app_main(void)
-// {
-//     ESP_LOGI(TAG, "ESP32 WiFi station example");
-//     wifi_init_sta();
-//     // Khi tới đây, ESP32 đã có IP, bạn có thể gọi HTTP/HTTPS...
-
-
-// }
