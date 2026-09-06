@@ -1,10 +1,8 @@
 #ifndef WIFI_H
 #define WIFI_H
 
-// Tên mạng Wi-Fi (SSID)
+// Wi-Fi name, change with your ssid and password 
 #define WIFI_SSID      "UET-Wifi-Free 2.4Ghz"
-
-// Mật khẩu Wi-Fi
 #define WIFI_PASS      ""
 
 #include "esp_err.h"
