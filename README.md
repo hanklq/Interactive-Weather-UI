@@ -1,8 +1,8 @@
 # Interactive Weather UI
+Demo: https://youtube.com/shorts/LWF2f9z3AAo?feature=share
 
 Weather detector firmware for an **ESP32-S3**. The device connects to Wi-Fi, downloads a seven-day forecast from the [Open-Meteo API](https://open-meteo.com/), stores the JSON response in SPIFFS, and is designed to display weather information on an ST7735S TFT screen.
 
-> **Current status:** The Wi-Fi, HTTPS, JSON parsing, and SPIFFS cache paths are implemented. The forecast-to-TFT display flow is still incomplete: `main.c` currently fetches and logs the forecast, but does not yet render it on the screen.
 
 ## Features
 
